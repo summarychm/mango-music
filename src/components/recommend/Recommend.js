@@ -110,17 +110,19 @@ class Recommend extends React.Component {
                 sliderList: res.data.slider
             }, () => {
                 //创建swiper
-                this.sliderSwiper = new Swiper(".slider-container"), {
-                    loop: true,
-                    autoplay: 1000 * 3,
-                    autoplayDisableOnInteraction: false,
-                    pagination: '.swiper-pagination'
+                if (!this.sliderSwiper) {
+                    this.sliderSwiper = new Swiper(".slider-container", {
+                        loop: true,
+                        autoplay: 1000,
+                        autoplayDisableOnInteraction: false,
+                        pagination: '.swiper-pagination'
+                    });
                 }
             });
         });
         //最新专辑
         getNewAlbum().then((res) => {
-            console.log(res);
+//            console.log(res);
             if (!res || res.code !== CODE_SUCCESS || !res.albumlib.data) {
                 console.error(res);
                 return;
@@ -149,4 +151,5 @@ class Recommend extends React.Component {
         }
     }
 }
+
 export default Recommend;
