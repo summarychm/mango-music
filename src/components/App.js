@@ -21,7 +21,7 @@ export default class App extends React.Component {
                 <div className="app">
                     <header className="app-header">
                         <img src={logo} alt="logo" className="app-logo"/>
-                        <h1 className="app-title">Mango Music</h1>
+                        <h1 className="app-title">芒果 Music</h1>
                     </header>
                     {/*顶部tab选择*/}
                     <div className="music-tab">
@@ -47,8 +47,7 @@ export default class App extends React.Component {
                             <Route path={"/recommend"} component={Recommend}/>
                             <Route path={"/ranking"} commponent={Ranking}/>
                             <Route path={'/search'} component={Search}/>
-                            <Redirect from="/" to="/recommend"/>
-                            <Route component={Recommend}/>
+                            <Redirect from="/" to="/recommend" />
                         </Switch>
                     </div>
                 </div>

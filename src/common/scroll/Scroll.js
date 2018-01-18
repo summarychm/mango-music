@@ -21,7 +21,7 @@ class Scroll extends React.Component {
             //触发父级回调事件
             if (this.props.onScroll) {
                 this.bScroll.on("scroll", scroll => {
-                    this.props.onScrool(scroll);
+                    this.props.onScroll(scroll);
                 })
             }
         }
@@ -32,11 +32,7 @@ class Scroll extends React.Component {
         this.bScroll.off("scroll");
         this.bScroll=null;
     }
-    refresh() {
-        if (this.bScroll) {
-            this.bScroll.refresh();
-        }
-    }
+
     render() {
         return (
             <div className="scroll-view"

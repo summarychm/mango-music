@@ -2,21 +2,26 @@ import React from 'react';
 
 import Swiper from "swiper"
 import "swiper/dist/css/swiper.css"
+import LazyLoad, {forceCheck} from 'react-lazyload'
 
+//自己包装过的第三方组件
+import Scroll from "@/common/scroll/Scroll";
+import Loading from '@/common/loading/Loading';
+
+//@为webpack中定义的别称alias
 import {getCarousel, getNewAlbum} from "@/api/recommend"
 import {CODE_SUCCESS} from "@/api/config"
 import * as AlbumModel from "@/model/album";
-import Scroll from "@/common/scroll/Scroll";
-
 import './recommend.styl';
 
-export default class Recommend extends React.Component {
+class Recommend extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            sliderList: [],
-            newAlbums: [],
-            refreshScroll: false
+            sliderList: [],//轮播数据
+            newAlbums: [],//最新专辑
+            refreshScroll: false,//是否刷新
+            loading: true
         }
     }
 
@@ -24,52 +29,8 @@ export default class Recommend extends React.Component {
         this.initialData();
     }
 
-    initialData = () => {
-        //轮播图
-        getCarousel().then(res => {
-            //console.log("获取轮播:");
-            if (!res || res.code !== CODE_SUCCESS)
-                return;
-            res.data && this.setState({
-                sliderList: res.data.slider
-            }, () => {
-                //创建swiper
-                this.sliderSwiper = new Swiper(".slider-container"), {
-                    loop: true,
-                    autoplay: 1000 * 3,
-                    autoplayDisableOnInteraction: false,
-                    pagination: '.swiper-pagination'
-                }
-            });
-        });
-        //最新专辑
-        getNewAlbum().then((res) => {
-            if (!res || res.code !== CODE_SUCCESS || !res.albumlib.data) {
-                // console.log("获取最新专辑：");
-                console.error(res);
-                return;
-            }
-
-            let albumList = res.albumlib.data.list;
-            //根据上架时间降序排列
-            albumList.sort((a, b) => {
-                return new Date(b.public_time).getTime() - new Date(a.public_time).getTime();
-            });
-            this.setState({
-                newAlbums: albumList
-            }, () => {
-                this.setState({
-                    refreshScroll: true
-                })
-            });
-        });
-    }
-
-    toLink(linkUrl) {
-        /*使用闭包把参数变为局部变量使用*/
-        return () => {
-            window.location.href = linkUrl
-        }
+    componentWillUnmount() {
+        this.sliderSwiper = null;
     }
 
     render() {
@@ -92,9 +53,11 @@ export default class Recommend extends React.Component {
             return (
                 <div className="album-wrapper" key={album.mId}>
                     <div className="left">
-                        <img src={album.img} alt={album.name}
-                             width="100%" height="100%"
-                        />
+                        <LazyLoad>
+                            <img src={album.img} alt={album.name}
+                                 width="100%" height="100%"
+                            />
+                        </LazyLoad>
                     </div>
                     <div className="right">
                         <div className="album-name">
@@ -112,7 +75,12 @@ export default class Recommend extends React.Component {
         });
         return (
             <div className="music-recommend">
-                <Scroll refresh={this.state.refreshScroll}>
+                <Scroll
+                    refresh={this.state.refreshScroll}
+                    onScroll={e => {
+                        forceCheck();//强制检测元素位置,如果出现在屏幕内立即加载.
+                    }}
+                >
                     <div>
                         <div className="slider-container">
                             <div className="swiper-wrapper">
@@ -128,7 +96,57 @@ export default class Recommend extends React.Component {
                         </div>
                     </div>
                 </Scroll>
+                <Loading title="正在加载..." show={this.state.loading}/>
             </div>
         )
     }
+
+    initialData = () => {
+        //轮播图
+        getCarousel().then(res => {
+            if (!res || res.code !== CODE_SUCCESS)
+                return;
+            res.data && this.setState({
+                sliderList: res.data.slider
+            }, () => {
+                //创建swiper
+                this.sliderSwiper = new Swiper(".slider-container"), {
+                    loop: true,
+                    autoplay: 1000 * 3,
+                    autoplayDisableOnInteraction: false,
+                    pagination: '.swiper-pagination'
+                }
+            });
+        });
+        //最新专辑
+        getNewAlbum().then((res) => {
+            console.log(res);
+            if (!res || res.code !== CODE_SUCCESS || !res.albumlib.data) {
+                console.error(res);
+                return;
+            }
+
+            let albumList = res.albumlib.data.list;
+            //根据上架时间降序排列
+            albumList.sort((a, b) => {
+                return new Date(b.public_time).getTime() - new Date(a.public_time).getTime();
+            });
+            this.setState({
+                loading: false,
+                newAlbums: albumList
+            }, () => {
+                this.setState({
+                    refreshScroll: true
+                })
+            });
+        });
+    }
+
+    toLink(linkUrl) {
+        /*使用闭包把参数变为局部变量使用*/
+        return () => {
+            window.location.href = linkUrl
+        }
+    }
 }
+export default Recommend;
