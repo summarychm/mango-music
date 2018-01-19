@@ -5,6 +5,7 @@ import registerServiceWorker from './registerServiceWorker';
 
 import App from './components/App';
 import './index.styl';
+//import Ranking from "./components/ranking/Ranking"
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

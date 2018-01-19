@@ -37,7 +37,7 @@ class Recommend extends React.Component {
         let carouselData = this.state.sliderList.map(slider => {
             return (
                 <div className="swiper-slide" key={slider.id}>
-                    <a href="#"
+                    <a
                        className="slider-nav"
                        onClick={this.toLink(slider.linkUrl)}
                     >
@@ -53,9 +53,9 @@ class Recommend extends React.Component {
             return (
                 <div className="album-wrapper" key={album.mId}>
                     <div className="left">
-                        <LazyLoad>
+                        <LazyLoad height="100px">
                             <img src={album.img} alt={album.name}
-                                 width="100%" height="100%"
+                                 width="100%"
                             />
                         </LazyLoad>
                     </div>

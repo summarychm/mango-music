@@ -40,12 +40,13 @@ export default class App extends React.Component {
                                 <span>搜索</span>
                             </NavLink>
                         </div>
+
                     </div>
                     {/*顶部tabSwitch*/}
                     <div className="music-view">
                         <Switch>
                             <Route path={"/recommend"} component={Recommend}/>
-                            <Route path={"/ranking"} commponent={Ranking}/>
+                            <Route path={'/ranking'} component={Ranking}/>
                             <Route path={'/search'} component={Search}/>
                             <Redirect from="/" to="/recommend" />
                         </Switch>
