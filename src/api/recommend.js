@@ -1,7 +1,10 @@
 import jsonp from './jsonp';
 import {URL, PARAM, OPTION} from './config';
 
-//推荐轮播
+/**
+ * 推荐轮播
+ * @returns {*}
+ */
 export const getCarousel = () => {
     const data = Object.assign({}, PARAM, {
         g_tk: 701075963,
@@ -13,7 +16,10 @@ export const getCarousel = () => {
     return jsonp(URL.carousel, data, OPTION);
 }
 
-//最新专辑
+/**
+ * 最新专辑
+ * @returns {*}
+ */
 export function getNewAlbum() {
     const data = Object.assign({}, PARAM, {
         g_tk: 1278911659,
@@ -30,5 +36,20 @@ export function getNewAlbum() {
         prefix: "callback"
     };
     return jsonp(URL.newalbum, data, option)
+}
+
+/**
+ * 获取专辑详情
+ * @param albumMid 专辑编号
+ */
+export function getAlbumInfo(albumMid) {
+    const data = Object.assign({}, PARAM, {
+        albummid: albumMid,
+        g_tk: 1278911659,
+        hostUin: 0,
+        platform: "yqq",
+        needNewCode: 0
+    });
+    return jsonp(URL.albumInfo, data, OPTION)
 }
 
