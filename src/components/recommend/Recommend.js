@@ -15,7 +15,7 @@ import Album from '@/components/album/Album';
 //@为webpack中定义的别称alias
 import {getCarousel, getNewAlbum} from "@/api/recommend"
 import {CODE_SUCCESS} from "@/api/config"
-import * as AlbumModel from "@/model/album";
+import * as AlbumModel from "@/model/Album";
 import './recommend.styl';
 
 class Recommend extends React.Component {

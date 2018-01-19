@@ -12,6 +12,7 @@ import Ranking from "./ranking/Ranking"
 import Search from "./search/Search"
 import logo from '../assets/imgs/logo.png';
 import '../assets/stylus/reset.styl';
+import '../assets/stylus/font.styl'; //字体图标
 import './App.styl';
 
 export default class App extends React.Component {
