@@ -1,30 +1,23 @@
 import React from 'react';
-import {
-    BrowserRouter as Router,
-    Route,
-    Switch,
-    NavLink,
-    Redirect
-} from 'react-router-dom';
-
+import {BrowserRouter as Router, Route, Switch, Redirect, NavLink} from "react-router-dom"
 import Recommend from "./recommend/Recommend"
 import Ranking from "./ranking/Ranking"
 import Search from "./search/Search"
-import logo from '../assets/imgs/logo.png';
-import '../assets/stylus/reset.styl';
-import '../assets/stylus/font.styl'; //字体图标
+
+import logo from "../assets/imgs/logo.png"
+import '../assets/stylus/reset.styl'
+import "../assets/stylus/font.styl"
 import './App.styl';
 
-export default class App extends React.Component {
+class App extends React.Component {
     render() {
         return (
             <Router>
                 <div className="app">
                     <header className="app-header">
-                        <img src={logo} alt="logo" className="app-logo"/>
-                        <h1 className="app-title">芒果 Music</h1>
+                        <img src={logo} className="app-logo" alt="logo" />
+                        <h1 className="app-title">Mango Music</h1>
                     </header>
-                    {/*顶部tab选择*/}
                     <div className="music-tab">
                         <div className="tab-item">
                             <NavLink to="/recommend" className="nav-link">
@@ -41,15 +34,18 @@ export default class App extends React.Component {
                                 <span>搜索</span>
                             </NavLink>
                         </div>
-
                     </div>
-                    {/*顶部tabSwitch*/}
                     <div className="music-view">
+                        {/*
+                   Switch组件用来选择最近的一个路由，否则最后一个没有指定path的路由也会显示
+                   Redirect重定向到列表页
+                 */}
                         <Switch>
-                            <Route path={"/recommend"} component={Recommend}/>
-                            <Route path={'/ranking'} component={Ranking}/>
-                            <Route path={'/search'} component={Search}/>
+                            <Route path="/recommend" component={Recommend} />
+                            <Route path="/ranking" component={Ranking} />
+                            <Route path="/search" component={Search} />
                             <Redirect from="/" to="/recommend" />
+                            <Route component={Recommend} />
                         </Switch>
                     </div>
                 </div>
@@ -57,3 +53,5 @@ export default class App extends React.Component {
         );
     }
 }
+
+export default App;

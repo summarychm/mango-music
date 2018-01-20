@@ -1,21 +1,19 @@
 import React from 'react';
 
+import {Route} from 'react-router-dom';
+import LazyLoad, {forceCheck} from 'react-lazyload'
 import Swiper from "swiper"
 import "swiper/dist/css/swiper.css"
-import LazyLoad, {forceCheck} from 'react-lazyload'
-import {Route} from 'react-router-dom';
-
 //自己包装过的第三方组件
 import Scroll from "@/common/scroll/Scroll";
 import Loading from '@/common/loading/Loading';
-
 //组件模块
 import Album from '@/components/album/Album';
 
 //@为webpack中定义的别称alias
 import {getCarousel, getNewAlbum} from "@/api/recommend"
 import {CODE_SUCCESS} from "@/api/config"
-import * as AlbumModel from "@/model/Album";
+import * as AlbumModel from "@/model/album";
 import './recommend.styl';
 
 class Recommend extends React.Component {
@@ -96,9 +94,8 @@ class Recommend extends React.Component {
         });
         //最新专辑
         getNewAlbum().then((res) => {
-//            console.log(res);
             if (!res || res.code !== CODE_SUCCESS || !res.albumlib.data) {
-                console.error(res);
+                console.error("最新专辑获取有误,",res);
                 return;
             }
 
@@ -176,11 +173,11 @@ class Recommend extends React.Component {
     }
 
     toAlbumDetail(url) {
+        /*scroll组件会派发一个点击事件，不能使用链接跳转*/
         return () => {
-            //console.log(111);
             this.props.history.push({
                 pathname: url
-            })
+            });
         }
     }
 }
