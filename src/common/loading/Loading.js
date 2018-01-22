@@ -1,26 +1,20 @@
-import React from 'react';
-import loadingImg from './loading.gif';
-import './loading.styl';
+import React from "react"
+import loadingImg from "./loading.gif"
+import "./loading.styl"
 
-const Loading = ({show, title}) => {
-    return (
-        <div
-            className="loading-container"
-            style={show ? {display: ""} : {display: "none"}}
-        >
-            <div className="loading-wrapper">
-                <img
-                    src={loadingImg} alt="loading"
-                    width="18px" height="18px"
-                />
-                <div className="loading-title">
-                    {title}
-                </div>
-            </div>
-        </div>
-    )
+class Loading extends React.Component {
+	render() {
+		let displayStyle = this.props.show === true ? 
+		{display:""} : {display:"none"};
+		return (
+			<div className="loading-container" style={displayStyle}>
+				<div className="loading-wrapper">
+					<img src={loadingImg} width="18px" height="18px" alt="loading"/>
+					<div className="loading-title">{this.props.title}</div>
+				</div>
+			</div>
+		);
+	}
 }
 
-export default Loading;
-
-
+export default Loading

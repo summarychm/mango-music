@@ -1,44 +1,22 @@
-import React from 'react';
-
-import './header.styl'
-
-// const MusicHeader=({title})=>{
-//     return(
-//         <div className="music-header">
-//             <span
-//                 className="header-back"
-//                 onClick={()=>{
-//                     window.history.back()
-//                 }}
-//             >
-//                 <i className="icon-back"></i>
-//             </span>
-//             <div className="header-title">
-//                 {title}
-//             </div>
-//         </div>
-//     )
-// }
+import React from "react"
+import "./header.styl"
 
 class MusicHeader extends React.Component {
-    render() {
-        let {title} = this.props;
-        return (<div className="music-header">
-            <span
-                className="header-back"
-                onClick={() => {
-                    window.history.back()
-                }}
-            >
-                <i className="icon-back"></i>
-            </span>
-            <div className="header-title">
-                {title}
-            </div>
-        </div>)
-    }
+	handleClick() {
+		window.history.back();
+	}
+	render() {
+		return (
+			<div className="music-header">
+				<span className="header-back" onClick={this.handleClick}>
+					<i className="icon-back"></i>
+				</span>
+				<div className="header-title">
+					{this.props.title}
+				</div>
+			</div>
+		);
+	}
 }
 
-export default MusicHeader;
-
-
+export default MusicHeader

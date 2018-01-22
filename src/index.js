@@ -1,14 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './index.css';
+import Root from './components/Root';
 import registerServiceWorker from './registerServiceWorker';
 
-
-import App from './components/App';
-import './index.styl';
-//import Ranking from "./components/ranking/Ranking"
-
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Root />, document.getElementById('root'));
 registerServiceWorker();
-
-
-

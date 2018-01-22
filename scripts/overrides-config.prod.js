@@ -10,49 +10,49 @@ const publicPath = paths.servedPath;
 const shouldUseRelativeAssetPaths = publicPath === './';
 const cssFilename = 'static/css/[name].[contenthash:8].css';
 const extractTextPluginOptions = shouldUseRelativeAssetPaths
-    ? // Making sure that the publicPath goes back to to build folder.
+  ? // Making sure that the publicPath goes back to to build folder.
     { publicPath: Array(cssFilename.split('/').length).join('../') }
-    : {};
+  : {};
 
 module.exports = function(config) {
-    // Define the root path alias
-    let alias = config.resolve.alias;
-    alias["@"] = baseConfig.rootPath;
+  // Define the root path alias
+  let alias = config.resolve.alias;
+  alias["@"] = baseConfig.rootPath;
 
-    // Use your ESLint
-    /*let eslintLoader = config.module.rules[0];
-    eslintLoader.use[0].options.useEslintrc = true;*/
+  // Use your ESLint 
+  /*let eslintLoader = config.module.rules[0];
+  eslintLoader.use[0].options.useEslintrc = true;*/
 
-    // Add the stylus loader second-to-last
-    // (last one must remain as the "file-loader")
-    let loaderList = config.module.rules[1].oneOf;
-    loaderList.splice(loaderList.length - 1, 0, {
-        test: /\.styl$/,
-        loader: ExtractTextPlugin.extract(
-            Object.assign(
-                {
-                    fallback: {
-                        loader: require.resolve('style-loader'),
-                        options: {
-                            hmr: false
-                        }
-                    },
-                    use: [
-                        {
-                            loader: require.resolve('css-loader'),
-                            options: {
-                                importLoaders: 1,
-                                minimize: true,
-                                sourceMap: true
-                            }
-                        },
-                        {
-                            loader: require.resolve('stylus-loader')
-                        }
-                    ]
+  // Add the stylus loader second-to-last
+  // (last one must remain as the "file-loader")
+  let loaderList = config.module.rules[1].oneOf;
+  loaderList.splice(loaderList.length - 1, 0, {
+    test: /\.styl$/,
+    loader: ExtractTextPlugin.extract(
+      Object.assign(
+        {
+          fallback: {
+              loader: require.resolve('style-loader'),
+              options: {
+                hmr: false
+              }
+          },
+          use: [
+            {
+              loader: require.resolve('css-loader'),
+                options: {
+                  importLoaders: 1,
+                  minimize: true,
+                  sourceMap: true
                 }
-            ), extractTextPluginOptions)
-    });
-    // Use Poststylus Plugin to handle stylus
-    config.plugins.push(baseConfig.stylusLoaderOptionsPlugin);
-};
+            },
+            {
+              loader: require.resolve('stylus-loader')
+            }
+          ]
+        }
+      ), extractTextPluginOptions)
+  });
+  // Use Poststylus Plugin to handle stylus
+  config.plugins.push(baseConfig.stylusLoaderOptionsPlugin);
+}
